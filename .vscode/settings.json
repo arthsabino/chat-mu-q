@@ -1,0 +1,21 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.renderControlCharacters": true,
+  "editor.fontLigatures": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+    "source.fixAll.eslint": true
+  },
+  "eslint.enable": true,
+  "prettier.enable": true,
+  "workbench.editor.tabSizing": "shrink",
+  "js/ts.implicitProjectConfig.target": "ESNext",
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "css.customData": [".vscode/css_custom_data.json"]
+}
