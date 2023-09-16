@@ -39,7 +39,16 @@ const Sidebar: FC<SidebarProps> = ({ user, show, onClose }) => {
         show ? "flex" : "hidden"
       }`}
     >
-      {isMenuOpen ? <UserList currentUser={user} /> : null}
+      {isMenuOpen ? (
+        <UserList
+          currentUser={user}
+          onClose={() => setIsMenuOpen(false)}
+          onChannelSelected={() => {
+            setIsMenuOpen(false);
+            onClose();
+          }}
+        />
+      ) : null}
       <MenuBar onUserMenuClick={() => setIsMenuOpen(true)} />
       <ChannelList
         filters={{
