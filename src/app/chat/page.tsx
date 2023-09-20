@@ -1,4 +1,9 @@
 "use client";
+import {
+  getCurrentPushSubscription,
+  sendPushSubscriptionToServer,
+} from "@/notifications/pushService";
+import { registerServiceWorker } from "@/util/serviceWorker";
 import { mdBreakpoint } from "@/util/tailwind";
 import { useUser } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
@@ -25,6 +30,31 @@ export default function ChatPage() {
       setShowSidebar(false);
     }
   }, [windowSize.width]);
+
+  useEffect(() => {
+    const setupServiceWorker = async () => {
+      try {
+        await registerServiceWorker();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    setupServiceWorker();
+  }, []);
+
+  useEffect(() => {
+    const syncPushSubscription = async () => {
+      try {
+        const subscription = await getCurrentPushSubscription();
+        if (subscription) {
+          await sendPushSubscriptionToServer(subscription);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    syncPushSubscription();
+  }, []);
 
   const handleSidebarClose = useCallback(() => {
     setShowSidebar(false);
