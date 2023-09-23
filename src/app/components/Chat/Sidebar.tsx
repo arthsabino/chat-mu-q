@@ -12,8 +12,14 @@ interface SidebarProps {
   user: UserResource;
   show: boolean;
   onClose: () => void;
+  customActiveChannel?: string;
 }
-const Sidebar: FC<SidebarProps> = ({ user, show, onClose }) => {
+const Sidebar: FC<SidebarProps> = ({
+  user,
+  show,
+  onClose,
+  customActiveChannel,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -57,6 +63,7 @@ const Sidebar: FC<SidebarProps> = ({ user, show, onClose }) => {
         }}
         sort={{ last_message_at: -1 }}
         options={{ state: true, presence: true, limit: 10 }}
+        customActiveChannel={customActiveChannel}
         showChannelSearch
         additionalChannelSearchProps={{
           searchForChannels: true,

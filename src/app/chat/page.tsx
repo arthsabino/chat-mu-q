@@ -11,11 +11,18 @@ import { useCallback, useEffect, useState } from "react";
 import { Chat, LoadingIndicator, Streami18n } from "stream-chat-react";
 import { useTheme } from "../ThemeProvider";
 import ChatChannel from "../components/Chat/ChatChannel";
+import PushMessageListener from "../components/Chat/PushMessageListener";
 import Sidebar from "../components/Chat/Sidebar";
 import { useChatClient } from "../hooks/chatClient";
 import useWindowSize from "../hooks/screen";
 const i18nInstance = new Streami18n({ language: "en" });
-export default function ChatPage() {
+
+interface ChatPageProps {
+  searchParams: { channelId?: string };
+}
+export default function ChatPage({
+  searchParams: { channelId },
+}: ChatPageProps) {
   const { chatClient } = useChatClient();
   const { theme } = useTheme();
   const { user } = useUser();
@@ -56,6 +63,12 @@ export default function ChatPage() {
     syncPushSubscription();
   }, []);
 
+  useEffect(() => {
+    if (channelId) {
+      history.replaceState(null, "", "/chat");
+    }
+  }, [channelId]);
+
   const handleSidebarClose = useCallback(() => {
     setShowSidebar(false);
   }, []);
@@ -93,12 +106,14 @@ export default function ChatPage() {
               user={user}
               show={isLargeScreen || showSidebar}
               onClose={handleSidebarClose}
+              customActiveChannel={channelId}
             />
             <ChatChannel
               show={isLargeScreen || showChannel}
               hideChannelOnThread={!isLargeScreen}
             />
           </div>
+          <PushMessageListener />
         </Chat>
       </div>
     </div>
